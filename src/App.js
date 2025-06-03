@@ -1,49 +1,33 @@
-import './App.css';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import PrivateRoute from "./components/PrivateRouter";
+import AppLayout from "./Pages/Layout";
+import UserDetail from "./Pages/UserDetail";
+import UserPhotos from "./Pages/UserPhotos";
+import UserComments from "./Pages/UserComments";
+import UserList from "./Pages/UserList";
+import Login from "./Pages/Login";
+import Register from "./Pages/Register";
 
-import React from "react";
-import { Grid, Typography, Paper } from "@mui/material";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-
-import TopBar from "./components/TopBar";
-import UserDetail from "./components/UserDetail";
-import UserList from "./components/UserList";
-import UserPhotos from "./components/UserPhotos";
-import UserComments from './components/UserComments';
-
-const App = (props) => {
-  return (
-      <Router>
-        <div>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TopBar />
-            </Grid>
-            <div className="main-topbar-buffer" />
-            <Grid item sm={3}>
-              <Paper className="main-grid-item">
-                <UserList />
-              </Paper>
-            </Grid>
-            <Grid item sm={9}>
-              <Paper className="main-grid-item">
-                <Routes>
-                  <Route
-                      path="/users/:userId"
-                      element = {<UserDetail />}
-                  />
-                  <Route
-                      path="/photos/:userId"
-                      element = {<UserPhotos />}
-                  />
-                  <Route path="/comments/:userId" element={<UserComments />} />
-                  <Route path="/users" element={<UserList />} />
-                </Routes>
-              </Paper>
-            </Grid>
-          </Grid>
-        </div>
-      </Router>
-  );
-}
+const App = () => {
+    return (
+        <Router>
+            <Routes>
+                <Route path="/" element={<AppLayout />}>
+                    <Route element={<PrivateRoute />}>
+                        <Route path="users/:userId" element={<UserDetail />} />
+                        <Route path="photos/:userId" element={<UserPhotos />} />
+                        <Route
+                            path="comments/:userId"
+                            element={<UserComments />}
+                        />
+                        <Route path="users" element={<UserList />} />
+                    </Route>
+                </Route>
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+            </Routes>
+        </Router>
+    );
+};
 
 export default App;
